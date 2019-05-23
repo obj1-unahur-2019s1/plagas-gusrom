@@ -1,0 +1,12 @@
+import plagas.*
+test "testX" {
+
+	var cucarachones=new PlagaCucarachas(poblacion=150)
+	var planeadores=new PlagaMosquitos(poblacion=500)
+	
+	assert.equals(true,cucarachones.transmitenEnfermedades())
+	assert.equals(150,cucarachones.nivelDeDanio())
+	
+	
+
+}
