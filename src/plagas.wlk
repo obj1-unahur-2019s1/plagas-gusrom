@@ -2,6 +2,7 @@ class Hogar {
 	var property nivelDeMugre
 	var property confortOfrecido
 	method esBueno(){return confortOfrecido/2>=nivelDeMugre }
+	method fueAtacado(plaga){nivelDeMugre+=plaga.nivelDeDanio()}
 	
 }
 
@@ -13,11 +14,17 @@ class Huerta{
 		
 	}
 	method esBueno(){return capacidadDeProduccion>nivel}
+	method fueAtacado(plaga){capacidadDeProduccion-=plaga.nivelDeDanio()*0.1 
+		if(plaga.transmiteEnfermedades()){capacidadDeProduccion-=10}
+		
+	}
 }
 
 class Mascota{
 	var property nivelDeSalud
 	method esBueno(){return nivelDeSalud>250}
+	method fueAtacado(plaga){if(plaga.transmiteEnfermedades()){nivelDeSalud-=plaga.nivelDeDanio()}}
+	
 }
 
 class Barrios{
@@ -32,8 +39,9 @@ class Barrios{
 class Plaga{
 	var property poblacion
 	method transmitenEnfermedades(){return poblacion>=10}
-	method atacar(elemento){elemento.fueAtacado(self)
+	method atacar(elemento){
 		poblacion=poblacion*1.1
+		elemento.fueAtacado()
 	}	
 	
 }
@@ -44,8 +52,9 @@ class PlagaCucarachas inherits Plaga{
 	
 	override method transmitenEnfermedades(){return super() && pesoPromedio>=10}
 		
-	override method atacar(elemento){super(elemento)
+	override method atacar(elemento){
 		pesoPromedio+=2
+		super(elemento)
 	}
 	method nivelDeDanio(){return poblacion/2}
 }
@@ -65,3 +74,10 @@ class PlagaMosquitos inherits Plaga{
 	
 }
 
+class PlagaGarrapatas inherits PlagaPulgas{
+	override method atacar(elementos){
+		poblacion+=poblacion*0.2
+		elemento.fueAtacado()
+		}
+		
+}
